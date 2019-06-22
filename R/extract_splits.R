@@ -14,6 +14,17 @@ library(dplyr)
 library(stringr)
 library(tidyr)
 
+# Call functions from source ---------------------------------------------------
+
+source(here("functions/extract_race_metadata.R"))
+source(here("functions/extract_race_results.R"))
+source(here("functions/wrangle_to_column.R"))
+source(here("functions/label_race_metadata.R"))
+source(here("functions/clean_metadata_data_types.R"))
+source(here("functions/clean_metadata_comp_details.R"))
+source(here("functions/clean_metadata_comp_dates.R"))
+source(here("functions/tidy_race_metadata.R"))
+
 # Extract tables from PDF ------------------------------------------------------
 
 source_pdf <- here("pdfs/20180914_2018_Worlds_LM1x_Final_A_Splits.pdf")
@@ -22,98 +33,16 @@ source_pdf <- here("pdfs/20180914_2018_Worlds_LM1x_Final_A_Splits.pdf")
 # locate_areas(source_pdf, 1)
 
 # Extract metadata about the race
-extracted_race_metadata <- unlist(extract_tables(
-  source_pdf, pages = 1, area = list(c(126, 35, 201, 577)),
-  guess = FALSE, output = "data.frame"))
+race_metadata <- extract_race_metadata(source_pdf)
 
 # Extract race times and ranks data
-extracted_race_data <- as.data.frame(extract_tables(
-  source_pdf, pages = 1, area = list(c(245, 34, 651, 579)),
-  guess = FALSE, output = "data.frame"))
+race_results <- extract_race_results(source_pdf)
 
-# Wrangle the metadata ---------------------------------------------------------
+# Tidy the metadata ------------------------------------------------------------
 
-tidy_metadata <- data.frame(extracted_race_metadata)
+tidy_metadata <- tidy_race_metadata(race_metadata)
 
-# Wrangle the metadata into one column of values
-column_values <- data.frame(rownames(tidy_metadata))
-colnames(column_values) <- "column_values"
-
-rownames(tidy_metadata) <- NULL
-tidy_metadata <- tidy_metadata %>%
-  rename(column_values = extracted_race_metadata)
-
-tidy_metadata <- rbind(tidy_metadata, column_values)
-
-# Label the useful values with variable names
-varnames <- c("event_num", rep(NA, 3), "boat_class_name", "race_date",
-              "boat_class_short", "race_type_short", "race_num",
-              "comp_details", rep(NA, 5), "comp_dates", rep(NA, 2))
-tidy_metadata <- tidy_metadata %>%
-  mutate(
-    varnames = varnames) %>%
-  filter(!is.na(varnames))
-
-varnames <- tidy_metadata$varnames
-
-tidy_metadata <- tidy_metadata %>%
-  select(-varnames)
-
-tidy_metadata <- t(tidy_metadata)
-colnames(tidy_metadata) <- varnames
-rownames(tidy_metadata) <- NULL
-tidy_metadata <- data.frame(tidy_metadata)
-
-# Tidy up the metadata ---------------------------------------------------------
-
-tidy_metadata <- tidy_metadata %>%
-  mutate(
-    event_num = as.numeric(as.character(event_num)),
-    year = as.numeric(str_sub(race_date, 8, 11)),
-    race_num = as.numeric(gsub("[^0-9.-]+", "", race_num)),
-    comp_details = as.character(comp_details),
-    comp_dates = as.character(comp_dates)
-  )
-
-# Split out $comp_details to distinct variables
-comp_details_split <- str_split_fixed(
-  tidy_metadata$comp_details, "\\.", n = 4)
-colnames(comp_details_split) <- c(
-  "competition", "locality", "dropvar", "country")
-comp_details_split <- data.frame(comp_details_split)
-comp_details_split <- comp_details_split %>%
-  select(-dropvar) %>%
-  mutate(
-    country = gsub('[[:digit:]]+', '', country))
-
-# Merge split competition details back into metadata
-tidy_metadata <- cbind(tidy_metadata, comp_details_split)
-tidy_metadata <- tidy_metadata %>%
-  select(-comp_details)
-
-# Tidy up $comp_dates info
-comp_dates_split <- str_split_fixed(
-  tidy_metadata$comp_dates, "\\.", n = 5)
-colnames(comp_dates_split) <- c(
-  "comp_start", "dropvar1", "dropvar2", "comp_end", "comp_month")
-comp_dates_split <- data.frame(comp_dates_split)
-comp_dates_split <- comp_dates_split %>%
-  select(-starts_with("drop")) %>%
-  mutate(
-    comp_start = as.numeric(gsub("[^0-9.-]+", "", comp_start)),
-    comp_month = gsub('[[:digit:]]+', '', comp_month),
-    competition_dates = paste0(
-      comp_start, "-", comp_end, " ", comp_month)
-  )
-
-# Merge tidied competition dates back into metadata
-tidy_metadata <- tidy_metadata %>%
-  mutate(
-    competition_dates = comp_dates_split$competition_dates) %>%
-  select(year, competition, locality, country, competition_dates, event_num,
-         boat_class_name, boat_class_short, race_date, race_type_short,
-         race_num, -comp_dates)
-
+# TODO: Continue from here with turning the one-off script into functions
 # First tidy-up of the race data -----------------------------------------------
 
 tidy_data <- extracted_race_data
