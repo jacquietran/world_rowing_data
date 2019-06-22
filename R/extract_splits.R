@@ -5,6 +5,7 @@
 library(here)
 library(tabulizer)
 library(dplyr)
+library(stringr)
 
 # Extract tables from PDF ------------------------------------------------------
 
@@ -23,34 +24,66 @@ tidy_data <- extracted_data
 
 # Rename columns
 colnames(tidy_data) <- c(
-  "rank_final", "lane", "country_code", "seat", "crew_names",
-  "split_time_500m", "split_rank_500m", "split_time_1000m", "split_rank_1000m",
-  "split_time_1500m", "split_rank_1500m", "split_time_2000m",
-  "split_rank_2000m", "dropvar")
+  "rank_final", "lane", "country_code", "seat", "crew_names", "time_500m",
+  "rank_500m", "time_1000m", "rank_1000m", "time_1500m", "rank_1500m",
+  "time_2000m", "rank_2000m", "dropvar")
 
 # Remove unneeded column
 tidy_data <- tidy_data %>%
   select(-dropvar)
 
-# Add row-wise meta-data about type of split time info
+# Replace empty strings with NA
+tidy_data[tidy_data == ""] <- NA
+
+# Remove parentheses from rank values
+tidy_data <- tidy_data %>%
+  mutate(
+    rank_500m = gsub("\\D", "", rank_500m),
+    rank_1000m = gsub("\\D", "", rank_1000m),
+    rank_1500m = gsub("\\D", "", rank_1500m),
+    rank_2000m = gsub("\\D", "", rank_2000m))
+
+# Wrangle the data -------------------------------------------------------------
+
+# Create row-wise meta-data about type of split time
 split_time_type <- c(
-  "cumulative", "500 m split",
-  rep(c("cumulative", "500 m split", "gap to 1st"),
-      times = sum(!is.na(tidy_data$lane)) - 1)
-)
+  "cumulative", "split",
+  rep(c("cumulative", "split", "gap_to_first"),
+      times = sum(!is.na(tidy_data$lane)) - 1))
 
-# Add row-wise meta-data about type of split rank info
+# Create row-wise meta-data about type of split rank
 split_rank_type <- c(
-  "rank in race", "rank for 500 m split",
-  rep(c("rank in race", "rank for 500 m split", NA),
-      times = sum(!is.na(tidy_data$lane)) - 1)
-)
+  "race", "split",
+  rep(c("race", "split", NA),
+      times = sum(!is.na(tidy_data$lane)) - 1))
 
+# Add row-wise meta-data into tidy data set
 tidy_data <- tidy_data %>%
   mutate(
     split_time_type = split_time_type,
     split_rank_type = split_rank_type) %>%
   select(rank_final, lane, country_code, seat, crew_names, split_time_type,
-         split_rank_type, everything())
+         split_rank_type, everything()) %>%
+  mutate(
+    rank_final = zoo::na.locf(rank_final, na.rm = FALSE),
+    lane = zoo::na.locf(lane, na.rm = FALSE),
+    country_code = zoo::na.locf(country_code, na.rm = FALSE),
+    crew_names = zoo::na.locf(crew_names, na.rm = FALSE))
+
+# Subset the data --------------------------------------------------------------
+
+tidy_data_race <- tidy_data %>%
+  select(rank_final, lane, country_code, seat, crew_names, split_time_type,
+         split_rank_type, time_500m, time_1000m, time_1500m, time_2000m,
+         rank_500m, rank_1000m, rank_1500m, rank_2000m) %>%
+  filter(split_time_type == "cumulative")
+
+tidy_data_splits <- tidy_data %>%
+  select(rank_final, lane, country_code, seat, crew_names, split_time_type,
+         split_rank_type, time_500m, time_1000m, time_1500m, time_2000m,
+         rank_500m, rank_1000m, rank_1500m, rank_2000m) %>%
+  filter(split_time_type != "cumulative")
+
+# ------------------------------------------------------------------------------
 
 # TODO: Create boat-class-specific functions for extracting data from PDFs?
