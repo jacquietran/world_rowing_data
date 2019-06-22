@@ -16,7 +16,7 @@ Stack Overflow: ['Counting non NAs in a data frame; getting answer as a vector']
 
 Stack Overflow: ['How to fill NAs with LOCF by factors in data frame, split by country'](https://stackoverflow.com/questions/13616965/how-to-fill-nas-with-locf-by-factors-in-data-frame-split-by-country)
 
-Stack Overflow: ['Remove parenthesis from string'](https://stackoverflow.com/questions/9449466/remove-parenthesis-from-string)
+Stack Overflow: ['Removing parentheses as unwanted text in R using gsub'](https://stackoverflow.com/questions/28974124/removing-parentheses-as-unwanted-text-in-r-using-gsub)
 
 ## R packages
 
