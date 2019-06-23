@@ -34,6 +34,16 @@ UC Business Analytics R Programming Guide, ['Reshaping your data with tidyr'](ht
 
 ['Introduction to stringr'](https://cran.r-project.org/web/packages/stringr/vignettes/stringr.html)
 
+## Functional programming
+
+`purrr` reference manual: ['Apply a function to each element of a vector'](https://purrr.tidyverse.org/reference/map.html)
+
 ## R packages
 
 Erik Howard, ['How to create an R data package'](https://www.erikhoward.net/how-to-create-an-r-data-package/)
+
+## Visualisation
+
+Mikey Harper, ['Data-driven flowcharts in R using DiagrammeR'](https://mikeyharper.uk/flowcharts-in-r-using-diagrammer/)
+
+Richard Iannone, ['DiagrammeR docs'](http://rich-iannone.github.io/DiagrammeR/docs.html)
