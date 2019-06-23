@@ -27,8 +27,8 @@ World Rowing provides a range of PDFs related to any particular regatta. I am in
 ### Race results
 
 - [x] Write one-off script that performs end-to-end processes for extracting data from race results PDF for 1 race. I chose: 2018 World Championships LM1x A Final.
-- [x] Convert one-off code chunks into functions, with the end-result being a wrapper function, `get_race_results_1x` that performs the end-to-end process of data extraction to tidying.
-- [x] Check that the wrapper function `get_race_results_1x` works on other race results PDFs of a similar structure. Confirmed to work with all race results PDFs from the 2018 World Championships LM1x Finals races.
+- [x] Convert one-off code chunks into functions, with the end-result being a wrapper function, `get_race_results_1x()`, that performs the end-to-end process of data extraction to tidying.
+- [x] Check that `get_race_results_1x()` works on other race results PDFs of a similar structure. Confirmed to work with all race results PDFs from the 2018 World Championships LM1x Finals races.
 
 ### Sensor data
 
