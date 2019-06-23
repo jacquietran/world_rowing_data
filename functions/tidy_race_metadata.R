@@ -1,4 +1,4 @@
-# Tidy race metadata in one step,
+# A wrapper function to tidy race metadata in one step,
 # combining wrangling and cleaning custom functions
 tidy_race_metadata <- function(race_metadata){
   
