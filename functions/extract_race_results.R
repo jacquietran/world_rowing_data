@@ -1,7 +1,7 @@
 # Extract race results from split time PDF
 extract_race_results <- function(source_pdf){
   
-  library(tabulizer)
+  # library(tabulizer)
   
   as.data.frame(
     extract_tables(

@@ -2,7 +2,7 @@
 # a data frame of one column
 wrangle_to_column <- function(race_metadata){
  
-  library(dplyr)
+  # library(dplyr)
   
   # Convert extracted race metadata to data frame
   wrangled_metadata <- data.frame(race_metadata)

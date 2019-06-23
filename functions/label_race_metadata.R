@@ -2,7 +2,7 @@
 # and transpose to a one-row data frame
 label_race_metadata <- function(wrangled_metadata){
   
-  library(dplyr)
+  # library(dplyr)
   
   # Label the useful values with variable names
   varnames <- c("event_num", rep(NA, 3), "boat_class_name", "race_date",

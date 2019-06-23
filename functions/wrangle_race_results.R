@@ -15,7 +15,7 @@ wrangle_race_results <- function(cleaned_race_results){
   # Create an empty row for appending to race results data
   # for 1st placegetters who do not trail at any of the 500-m checkpoints
   # (i.e., row_check_fx() returns FALSE)
-  na_row <- data.frame(matrix(ncol = 13, nrow = 1))
+  na_row <- data.frame(matrix(ncol = 14, nrow = 1))
   colnames(na_row) <- names(cleaned_race_results)
   na_row <- na_row %>%
     mutate(

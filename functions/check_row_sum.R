@@ -1,5 +1,5 @@
-# Function for checking the cumulative sum of
-# top 3 rows in cleaned and populated race results
+# Check the cumulative sum of top 3 rows
+# in cleaned and populated race results
 check_row_sum <- function(row_check_data){
   
   row_check_data <- row_check_data %>%

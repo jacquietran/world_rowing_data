@@ -3,8 +3,8 @@
 # and has had its competition details cleaned
 clean_metadata_comp_dates <- function(cleaner_with_comp_details){
   
-  library(stringr)
-  library(dplyr)
+  # library(stringr)
+  # library(dplyr)
   
   # Tidy up $comp_dates info
   comp_dates_split <- str_split_fixed(

@@ -2,8 +2,8 @@
 # that has had its data classes cleaned
 clean_metadata_comp_details <- function(cleaner_metadata){
   
-  library(stringr)
-  library(dplyr)
+  # library(stringr)
+  # library(dplyr)
   
   # Split out $comp_details to distinct variables
   comp_details_split <- str_split_fixed(

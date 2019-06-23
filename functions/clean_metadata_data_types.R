@@ -1,8 +1,8 @@
 # Clean up data types in wrangled race metadata
 clean_metadata_data_types <- function(wrangled_metadata){
   
-  library(dplyr)
-  library(stringr)
+  # library(dplyr)
+  # library(stringr)
   
   cleaner_metadata <- wrangled_metadata %>%
     mutate(

@@ -1,7 +1,7 @@
 # Extract race metadata from split time PDF
 extract_race_metadata <- function(source_pdf){
   
-  library(tabulizer)
+  # library(tabulizer)
   
   unlist(
     extract_tables(
