@@ -27,6 +27,7 @@ Stack Overflow:
 - ['Repeat rows of a data.frame'](https://stackoverflow.com/questions/11121385/repeat-rows-of-a-data-frame/11121463)
 - ['Create empty data frame with column names by assigning a string vector?'](https://stackoverflow.com/questions/32712301/create-empty-data-frame-with-column-names-by-assigning-a-string-vector/32712555)
 - ['Conditional statement to rbind if object exists'](https://stackoverflow.com/questions/38128957/condtional-statement-to-rbind-if-object-exists?rq=1)
+- ['R: what is NA_character?'](https://stackoverflow.com/questions/37400665/r-what-is-na-character)
 
 `dplyr` reference manual: ['Arrange rows by variables'](https://dplyr.tidyverse.org/reference/arrange.html)
 
@@ -37,6 +38,8 @@ UC Business Analytics R Programming Guide, ['Reshaping your data with tidyr'](ht
 ## Functional programming
 
 `purrr` reference manual: ['Apply a function to each element of a vector'](https://purrr.tidyverse.org/reference/map.html)
+
+Altuna Akalin, ['Functions and control structures (for, if/else etc.)'](https://al2na.github.io/compgenr/intro_to_r/functions_and_control_structures_for,_ifelse_etc.html)
 
 ## R packages
 
