@@ -35,7 +35,13 @@ clean_metadata_comp_dates [label = 'clean_metadata_comp_dates()',
                            fillcolor = OrangeRed]
                            
 # tidy race results
+check_rank_lane [label = 'check_rank_lane()',
+                 fillcolor = OrangeRed]
+separate_rank_lane [label = 'separate_rank_lane()',
+                    fillcolor = OrangeRed]
 populate_race_results [label = 'populate_race_results()',
+                       fillcolor = OrangeRed]
+check_row_sum [label = 'check_row_sum()',
                        fillcolor = OrangeRed]
 wrangle_race_results [label = 'wrangle_race_results()',
                       fillcolor = OrangeRed]
@@ -52,6 +58,6 @@ merge_race_results_metadata [label = 'merge_race_results_metadata()',
 
 # edge definitions with the node IDs
 extract_race_metadata -> wrangle_to_column -> label_race_metadata -> clean_metadata_data_types -> clean_metadata_comp_details -> clean_metadata_comp_dates -> merge_race_results_metadata
-extract_race_results -> populate_race_results -> wrangle_race_results -> {subset_to_race subset_to_splits} -> tidy_race_results -> merge_race_results_metadata
 
-                                  }")
+extract_race_results -> check_rank_lane -> separate_rank_lane -> populate_race_results -> check_row_sum -> wrangle_race_results -> {subset_to_race subset_to_splits} -> tidy_race_results -> merge_race_results_metadata
+}")
